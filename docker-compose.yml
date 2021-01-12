@@ -1,0 +1,26 @@
+---
+version: "3"
+
+services:
+  mongo:
+    container_name: docker_mongo
+    networks:
+      - gateway
+    ports:
+      - "27018:27017"
+    hostname: mongo
+    image: mongo:latest
+  wenance-service:
+    build: .
+    networks:
+      - gateway
+    ports:
+      - "8080:8080"
+    hostname: spring
+    depends_on:
+      - mongo
+    command: "java -jar wenance-0.0.1-SNAPSHOT.jar"
+
+networks:
+  gateway:
+    driver: "bridge"
