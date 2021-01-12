@@ -5,7 +5,6 @@ import com.challenge.wenance.dto.SearchResponse
 import com.challenge.wenance.external.BuenBitService
 import com.challenge.wenance.model.Price
 import com.challenge.wenance.model.PriceRepository
-import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
@@ -17,15 +16,14 @@ import java.util.*
 class WenanceServiceImpl(private val buenBitService: BuenBitService,
                          private val repository: PriceRepository) : WenanceService {
 
-    private val logger = LoggerFactory.getLogger(WenanceServiceImpl::class.java)
     private val sizeDefault = 10
     private val pageDefault = 0
 
     override fun saveMarketData() {
         val response = buenBitService.getMarketTickers()
         response.let {
-            var btcars = response!!.data!!.btcars
-            var price = repository.findByPurchasePriceAndSellingPrice(btcars.purchasePrice, btcars.sellingPrice)
+            val btcars = response!!.data.btcars
+            val price = repository.findByPurchasePriceAndSellingPrice(btcars.purchasePrice, btcars.sellingPrice)
             if(!price.isPresent){
                 repository.save(btcars)
             }
@@ -33,7 +31,7 @@ class WenanceServiceImpl(private val buenBitService: BuenBitService,
     }
 
     override fun getBtcPrice(date: Date): Price? {
-        var response = repository.findFirstByCreatedDateLessThanOrderByCreatedDateDesc(date)
+        val response = repository.findFirstByCreatedDateLessThanOrderByCreatedDateDesc(date)
         return if(response.isPresent){
             response.get()
         } else {
@@ -47,14 +45,14 @@ class WenanceServiceImpl(private val buenBitService: BuenBitService,
 
         searchRequest.page?.let { page = searchRequest.page }
         searchRequest.size?.let { size = searchRequest.size }
-        var pageable: PageRequest
+        val pageable: PageRequest
         try {
             pageable = PageRequest.of(page, size)
         } catch (e: IllegalArgumentException){
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
         }
 
-        var response: Page<Price> = if(searchRequest.initDate != null && searchRequest.endDate != null)
+        val response: Page<Price> = if(searchRequest.initDate != null && searchRequest.endDate != null)
             repository.findByCreatedDateBetween(searchRequest.initDate, searchRequest.endDate, pageable)
         else if (searchRequest.initDate != null)
             repository.findByCreatedDateGreaterThanEqual(searchRequest.initDate, pageable)

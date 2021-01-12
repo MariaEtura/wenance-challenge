@@ -81,7 +81,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithPageNullAndSizeNull(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, null)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(0),
@@ -93,7 +93,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithPageNull(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, 2)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, 2)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(0),
@@ -105,7 +105,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithSizeNull(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, 1, null)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, 1, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(1),
@@ -117,7 +117,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPrices(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, 2, 1)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 0, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, 2, 1)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(2),
@@ -129,7 +129,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithPageLessThanOne(){
-        var searchRequest = SearchRequest(null, null, 0, 0)
+        val searchRequest = SearchRequest(null, null, 0, 0)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then()
             .statusCode(400)
@@ -137,7 +137,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithoutInitDate(){
-        var searchRequest = SearchRequest(null, GregorianCalendar(2021,0,7, 17, 0).time, null, null)
+        val searchRequest = SearchRequest(null, GregorianCalendar(2021,0,7, 17, 0).time, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(0),
@@ -149,7 +149,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithoutEndDate(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,7, 23, 0).time, null, null, null)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,7, 23, 0).time, null, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(0),
@@ -161,7 +161,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testSearchPricesWithoutDates(){
-        var searchRequest = SearchRequest(null, null, null, null)
+        val searchRequest = SearchRequest(null, null, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/searchPrices").then().statusCode(200).body(
             "currentPage", equalTo(0),
@@ -173,7 +173,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testPriceAverage(){
-        var searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 22, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, null)
+        val searchRequest = SearchRequest(GregorianCalendar(2021,0,6, 22, 0).time, GregorianCalendar(2021,0,8, 20, 0).time, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/averagePrice").then().statusCode(200).body(
             "purchase_price", equalTo(6454384.220000001f),
@@ -183,7 +183,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testPriceAverageErrorBadRequest(){
-        var searchRequest = SearchRequest(null, null, null, null)
+        val searchRequest = SearchRequest(null, null, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/averagePrice").then()
             .statusCode(400)
@@ -191,7 +191,7 @@ class WenanceApplicationTests {
 
     @Test
     fun testPriceAverageErrorNotFound(){
-        var searchRequest = SearchRequest(GregorianCalendar(2022,0,7, 0, 0).time, GregorianCalendar(2022,0,8, 23, 59).time, null, null)
+        val searchRequest = SearchRequest(GregorianCalendar(2022,0,7, 0, 0).time, GregorianCalendar(2022,0,8, 23, 59).time, null, null)
 
         given().port(port).body(searchRequest).contentType(ContentType.JSON).`when`().post("/btcars/averagePrice").then()
             .statusCode(404)
@@ -201,7 +201,7 @@ class WenanceApplicationTests {
     @Test
     fun testXScheduleSavePriceWhenPriceAlreadyExist(){
         Mockito.`when`(buenBitService.getMarketTickers()).thenReturn(getMarketTickers(6862768.44, 6929768.44))
-        var originalSize = priceRepository.findAll().size
+        val originalSize = priceRepository.findAll().size
         wenanceService.saveMarketData()
         assertEquals(originalSize, priceRepository.findAll().size)
     }
@@ -210,14 +210,14 @@ class WenanceApplicationTests {
     @Test
     fun testXScheduleSavePriceWhenPriceIsNew(){
         Mockito.`when`(buenBitService.getMarketTickers()).thenReturn(getMarketTickers(7862768.59, 7929768.59))
-        var originalSize = priceRepository.findAll().size
+        val originalSize = priceRepository.findAll().size
         wenanceService.saveMarketData()
         assertEquals(originalSize + 1, priceRepository.findAll().size)
     }
 
     private fun getMarketTickers(purchasePrice: Double, sellingPrice: Double): MarketTicker {
-        var price = Price(purchasePrice, sellingPrice)
-        var marketTickerData = MarketTickerData(null, null, price)
+        val price = Price(purchasePrice, sellingPrice)
+        val marketTickerData = MarketTickerData(null, null, price)
         return MarketTicker(marketTickerData)
     }
 

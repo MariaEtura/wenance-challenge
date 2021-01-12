@@ -41,8 +41,7 @@ data class Price(
     val createdDate: LocalDateTime? = LocalDateTime.now()){
 
     constructor(purchasePrice: Double,
-                sellingPrice: Double) : this(null, null, null, null, purchasePrice, sellingPrice, null,  null) {
-    }
+                sellingPrice: Double) : this(null, null, null, null, purchasePrice, sellingPrice, null,  null)
 
 }
 
